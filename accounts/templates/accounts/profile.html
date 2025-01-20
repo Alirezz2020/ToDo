@@ -1,0 +1,27 @@
+
+
+<!-- profile.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="{% url 'tasks:task_create' %}" class="btn btn-primary">Create Task</a>
+
+                     <a href="{% url 'tasks:task_list' %}" class="btn btn-primary"> Tasks</a>
+                     <a href="{% url 'accounts:logout_confirm' %}" class="btn">Logout</a>
+                     <a href="{% url 'accounts:password_change' %}" class="btn">Change Password</a>
+  <h2>{{ user.username }}'s Profile</h2>
+
+  {% if profile.picture %}
+    <div>
+      <img src="{{ profile.picture.url }}" alt="Profile Picture" width="200" height="200">
+    </div>
+  {% endif %}
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update Profile</button>
+  </form>
+{% endblock %}
+
+

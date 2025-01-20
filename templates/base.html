@@ -1,0 +1,25 @@
+{% load static %}  <!-- Make sure to load static files at the top -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ToDo App{% endblock %}</title>
+
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/script.js' %}"></script>
+    
+    <!-- You can add more links or scripts here as needed -->
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+  
+        {% block content %}{% endblock %}
+    
+<script src="{% static 'js/script.js' %}"></script>
+
+</body>
+</html>

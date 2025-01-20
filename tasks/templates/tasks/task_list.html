@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="task-container">
+    <h1>Your Tasks</h1>
+
+    <!-- Filter Form -->
+    <form method="get" action="{% url 'tasks:task_list' %}">
+        <select name="completed">
+            <option value="" {% if completed == "" %}selected{% endif %}>All</option>
+            <option value="true" {% if completed == "true" %}selected{% endif %}>Completed</option>
+            <option value="false" {% if completed == "false" %}selected{% endif %}>Pending</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
+    <!-- Sticky Filter (you already have this) -->
+    <div class="sticky-filter mb-3">
+        <form method="get">
+            {{ filter.form.as_p }}  <!-- This will render the filter form -->
+
+        </form>
+    </div>
+
+    <!-- Task Table -->
+    <table class="task-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Created At</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ forloop.counter|add:offset }}</td>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.description|truncatewords:3 }}</td>
+                    <td>{{ task.created_at|date:"d M Y" }}</td>
+                    <td>
+                        {% if task.completed %}
+                            <span class="status-completed">Completed</span>
+                        {% else %}
+                            <span class="status-pending">Pending</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'tasks:task_detail' task.id %}" class="btn btn-view">View</a>
+                        <a href="{% url 'tasks:task_update' task.id %}" class="btn btn-edit">Edit</a>
+                        <a href="{% url 'tasks:task_delete' task.id %}" class="btn btn-delete">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Custom Pagination -->
+    <nav class="mt-3">
+        <ul class="pagination justify-content-center">
+            {% if current_page > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if completed %}&completed={{ completed }}{% endif %}">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ current_page|add:-1 }}{% if completed %}&completed={{ completed }}{% endif %}">Previous</a>
+                </li>
+            {% endif %}
+
+            <li class="page-item disabled">
+                <span class="page-link">Page {{ current_page }} of {{ total_pages }}</span>
+            </li>
+
+            {% if current_page < total_pages %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ current_page|add:1 }}{% if completed %}&completed={{ completed }}{% endif %}">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ total_pages }}{% if completed %}&completed={{ completed }}{% endif %}">Last</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+{% endblock %}
+
+

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="detail-container">
+    <h1>Task Detail</h1>
+    <p><strong>Title:</strong> {{ task.title }}</p>
+    <p><strong>Description:</strong> {{ task.description }}</p>
+    <p><strong>Date:</strong> {{ task.created_at }}</p>
+    <p><strong>User:</strong> {{ task.user }}</p>
+    <p>
+        <strong>Status:</strong>
+        {% if task.completed %}
+        <span class="status-completed">Completed</span>
+        {% else %}
+        <span class="status-pending">Pending</span>
+        {% endif %}
+    </p>
+    <div class="btn-group">
+        <a href="{% url 'tasks:task_update' task.id %}" class="btn btn-edit">Edit</a>
+        <a href="{% url 'tasks:task_delete' task.id %}" class="btn btn-delete">Delete</a>
+        <a href="{% url 'tasks:task_list' %}" class="btn btn-back">Back to List</a>
+    </div>
+</div>
+{% endblock %}

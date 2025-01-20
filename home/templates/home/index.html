@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Welcome to the ToDo App!</h1>
+    <p>Organize your tasks efficiently and never miss a deadline.</p>
+    <a href="{% url 'tasks:task_create' %}" class="btn btn-primary">Create Task</a>
+
+{% endblock %}
